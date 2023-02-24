@@ -36,9 +36,9 @@ app.use(
 );
 
 //roots
-app.use("/", viewRouter);
-app.use("/auth", authRouter);
-app.use("/store", listRouter);
+app.use("/api/", viewRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/store", listRouter);
 
 //errors
 app.use(handleError);
