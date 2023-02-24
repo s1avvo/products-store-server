@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
@@ -36,9 +36,13 @@ app.use(
 );
 
 //roots
-app.use("/api/", viewRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/store", listRouter);
+const router = Router();
+
+router.use("/", viewRouter);
+router.use("/auth", authRouter);
+router.use("/store", listRouter);
+
+app.use("/api", router);
 
 //errors
 app.use(handleError);
