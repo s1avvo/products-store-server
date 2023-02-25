@@ -26,20 +26,6 @@ export class GoodsRecords implements GoodsEntity {
     this.productId = productId;
   }
 
-  // static async _load(): Promise<GoodsRecords[]> {
-  //   const data = await readFile("data/amount.json", "utf8");
-  //
-  //   return JSON.parse(data).map((prod: any) => {
-  //     if (prod.minus > 0)
-  //       return new GoodsRecords({
-  //         ...prod,
-  //         idItem: prod.id,
-  //         amount: prod.minus,
-  //         date: prod.data,
-  //       });
-  //   });
-  // }
-
   async insertGoodsIssue(): Promise<string> {
     await pool.execute(
       "INSERT INTO `goods_issue` VALUES(:idItem, :amount, :date, :person, :productId)",

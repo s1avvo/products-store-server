@@ -69,7 +69,6 @@ listRouter
     }
 
     await uploadToS3(uploaded);
-    await ProductRecords.updateProductDataSheet(req.params.productId, 1);
 
     res.json({ ok: "Plik został załadowany." });
   });

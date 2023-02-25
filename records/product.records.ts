@@ -61,7 +61,7 @@ export class ProductRecords implements ProductEntity {
 
   static async getAllProducts(): Promise<ProductRecords[]> {
     const [results] = (await pool.execute(
-      "SELECT * FROM `products` ORDER BY `name` ASC;"
+      "SELECT * FROM `products`"
     )) as ProductRecordsResult;
 
     return results.map((obj) => new ProductRecords(obj));
@@ -79,25 +79,6 @@ export class ProductRecords implements ProductEntity {
       throw new ValidationErrors(`Can't find this ID: ${id}`);
 
     return results.length === 0 ? null : new ProductRecords(results[0]);
-  }
-
-  //@TODO do usuniecia
-  static async updateProductDataSheet(
-    productId: string,
-    productDataSheet: number
-  ): Promise<void> {
-    const [result] = (await pool.execute(
-      "UPDATE `products` SET `productDataSheet` = :productDataSheet WHERE `id`= :productId",
-      {
-        productId,
-        productDataSheet,
-      }
-    )) as RowDataPacket[];
-
-    if (result.affectedRows === 0)
-      throw new ValidationErrors(`Product update failed!`);
-
-    return result.affectedRows;
   }
 
   static async getMostFrequentlyIssuedProducts(): Promise<ProductRecords[]> {
