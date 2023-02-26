@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { pool } from "../utils/db";
-import { FieldPacket, RowDataPacket } from "mysql2";
+import { FieldPacket } from "mysql2";
 import { ProductEntity } from "../types";
 import { ValidationErrors } from "../utils/errors";
 import { dateTimeNow } from "../utils/dateTimeNow";
@@ -61,7 +61,7 @@ export class ProductRecords implements ProductEntity {
 
   static async getAllProducts(): Promise<ProductRecords[]> {
     const [results] = (await pool.execute(
-      "SELECT * FROM `products`"
+      "SELECT * FROM `products` ORDER BY `name` ASC;"
     )) as ProductRecordsResult;
 
     return results.map((obj) => new ProductRecords(obj));
