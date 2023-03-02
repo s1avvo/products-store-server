@@ -53,7 +53,7 @@ export class ProductRecords implements ProductEntity {
     if (!this.id) throw new ValidationErrors(`Wrong ID: ${this.id}`);
 
     await pool.execute(
-      "UPDATE `products` SET `name` = :name, `secondName` = :secondName, `unit` = :unit, `place` = :place, `productDataSheet` = :productDataSheet, `active` = :active WHERE `id`= :id",
+      "UPDATE `products` SET `name` = :name, `secondName` = :secondName, `unit` = :unit, `place` = :place, `productDataSheet` = :productDataSheet, `active` = :active, `createdAt` = :createdAt WHERE `id`= :id",
       this
     );
   }
