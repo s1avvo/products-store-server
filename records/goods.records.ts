@@ -6,9 +6,6 @@ import { ValidationErrors } from "../utils/errors";
 
 type GoodsRecordsResult = [GoodsRecords[], FieldPacket[]];
 
-const date = new Date();
-const offset = date.getTime() - date.getTimezoneOffset() * 60000;
-const dateTimeNow = new Date(offset).toISOString();
 export class GoodsRecords implements GoodsEntity {
   public readonly idItem?: string;
   public amount: number;
@@ -21,7 +18,7 @@ export class GoodsRecords implements GoodsEntity {
 
     this.idItem = idItem ?? uuid();
     this.amount = amount;
-    this.date = date ?? dateTimeNow;
+    this.date = date;
     this.person = person;
     this.productId = productId;
   }

@@ -3,7 +3,6 @@ import { pool } from "../utils/db";
 import { FieldPacket } from "mysql2";
 import { ProductEntity } from "../types";
 import { ValidationErrors } from "../utils/errors";
-import { dateTimeNow } from "../utils/dateTimeNow";
 
 type ProductRecordsResult = [ProductRecords[], FieldPacket[]];
 
@@ -16,11 +15,20 @@ export class ProductRecords implements ProductEntity {
   public readonly unit: string;
   public readonly productDataSheet: number;
   public readonly active: number;
-  public readonly createdAt = dateTimeNow();
+  public readonly createdAt: string;
 
   constructor(obj: ProductEntity) {
-    const { id, name, secondName, qty, place, unit, productDataSheet, active } =
-      obj;
+    const {
+      id,
+      name,
+      secondName,
+      qty,
+      place,
+      unit,
+      productDataSheet,
+      active,
+      createdAt,
+    } = obj;
 
     this.id = id ?? uuid();
     this.name = name;
@@ -30,6 +38,7 @@ export class ProductRecords implements ProductEntity {
     this.place = place;
     this.productDataSheet = productDataSheet ?? 0;
     this.active = active ?? 1;
+    this.createdAt = createdAt;
   }
 
   async insertProduct(): Promise<ProductEntity> {

@@ -9,5 +9,3 @@ export interface ProductEntity {
   active: number;
   createdAt?: string;
 }
-
-export type NewProductEntity = Omit<ProductEntity, "id" | "createdAt">;
