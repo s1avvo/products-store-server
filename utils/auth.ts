@@ -1,8 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+export interface UserAuthRequest extends Request {
+  user?: string;
+}
+
 export const verifyToken = async (
-  req: Request,
+  req: UserAuthRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -17,8 +21,7 @@ export const verifyToken = async (
       token = token.slice(7, token.length).trimLeft();
     }
 
-    // @ts-ignore
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = jwt.verify(token, process.env.JWT_SECRET) as string;
     next();
   } catch (err) {
     res.status(500).json({ error: err.message });
