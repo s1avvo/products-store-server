@@ -108,7 +108,7 @@ export class ProductRecords implements ProductEntity {
 
   static async getRecentlyIssuedProducts(): Promise<ProductRecords[]> {
     const [results] = (await pool.execute(
-      "SELECT `products`.*, count(*) as `count` FROM `products` JOIN `goods_issue` ON `products`.`id` = `goods_issue`.`productId` group by `products`.`id` ORDER BY `goods_issue`.`date` DESC LIMIT 25"
+      "SELECT `products`.* FROM `products` JOIN `goods_issue` ON `products`.`id` = `goods_issue`.`productId` ORDER BY `goods_issue`.`date` DESC LIMIT 25"
     )) as ProductRecordsResult;
 
     return results.map((obj) => new ProductRecords(obj));
@@ -116,7 +116,7 @@ export class ProductRecords implements ProductEntity {
 
   static async getRecentlyOrderedProducts(): Promise<ProductRecords[]> {
     const [results] = (await pool.execute(
-      "SELECT `products`.*, count(*) as `count` FROM `products` JOIN `goods_reception` ON `products`.`id` = `goods_reception`.`productId` group by `products`.`id` ORDER BY `goods_reception`.`date` DESC LIMIT 25"
+      "SELECT `products`.* FROM `products` JOIN `goods_reception` ON `products`.`id` = `goods_reception`.`productId` ORDER BY `goods_reception`.`date` DESC LIMIT 25"
     )) as ProductRecordsResult;
 
     return results.map((obj) => new ProductRecords(obj));
