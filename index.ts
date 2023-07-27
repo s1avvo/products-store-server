@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import dotenv from "dotenv";
-dotenv.config();
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import rateLimit from "express-rate-limit";
@@ -10,12 +9,19 @@ import { viewRouter } from "./routes/view";
 import { authRouter } from "./routes/auth";
 import { listRouter } from "./routes/store";
 import "./utils/db";
+import bodyParser from "body-parser";
+import helmet from "helmet";
+dotenv.config();
 
 const app = express();
 
 //middleware
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet());
 app.use(
   cors({
+    credentials: true,
     origin: process.env.CORS_ORIGIN,
   })
 );
@@ -25,8 +31,6 @@ app.use(
     createParentPath: true,
   })
 );
-
-app.use(express.json());
 
 app.use(
   rateLimit({
