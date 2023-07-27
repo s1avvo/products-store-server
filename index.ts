@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(
   cors({
-    credentials: true,
     origin: process.env.CORS_ORIGIN,
   })
 );
