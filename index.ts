@@ -16,6 +16,11 @@ dotenv.config();
 const app = express();
 
 //middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
@@ -33,8 +38,8 @@ app.use(
 
 app.use(
   rateLimit({
-    windowMs: 5 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 1000, // Limit each IP to 500 requests per window
   })
 );
 

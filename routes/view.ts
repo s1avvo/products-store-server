@@ -56,7 +56,11 @@ viewRouter
     }
 
     const data = await downloadFromS3(req.params.filename);
-    const file = data.Body as Readable;
-    res.attachment(req.params.filename);
-    file.pipe(res);
+
+    if (data.Body instanceof Readable) {
+      res.attachment(req.params.filename);
+      data.Body.pipe(res);
+    } else {
+      res.status(500).send("Nieoczekiwany typ danych");
+    }
   });
