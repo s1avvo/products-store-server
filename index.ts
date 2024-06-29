@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import fileUpload from "express-fileupload";
-import rateLimit from "express-rate-limit";
+// import rateLimit from "express-rate-limit";
 import "express-async-errors";
 import { handleError } from "./utils/errors";
 import { viewRouter } from "./routes/view";
@@ -11,9 +11,23 @@ import { listRouter } from "./routes/store";
 import "./utils/db";
 import bodyParser from "body-parser";
 import helmet from "helmet";
+import { pool } from "./utils/db";
 dotenv.config();
 
 const app = express();
+
+// Test połączenia z bazą danych
+(async () => {
+  try {
+    const connection = await pool.getConnection();
+    await connection.query("SELECT 1");
+    console.log("Database connection successful");
+    connection.release();
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    process.exit(1); // Wyjdź z procesu, jeśli połączenie nie jest prawidłowe
+  }
+})();
 
 //middleware
 app.use((req, res, next) => {
@@ -36,12 +50,12 @@ app.use(
   })
 );
 
-app.use(
-  rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 1000, // Limit each IP to 500 requests per window
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 5 * 60 * 1000, // 5 minutes
+//     max: 1000, // Limit each IP to 500 requests per window
+//   })
+// );
 
 //roots
 const router = Router();
