@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import fileUpload from "express-fileupload";
-// import rateLimit from "express-rate-limit";
+import rateLimit from "express-rate-limit";
 import "express-async-errors";
 import { handleError } from "./utils/errors";
 import { viewRouter } from "./routes/view";
@@ -50,12 +50,12 @@ app.use(
   })
 );
 
-// app.use(
-//   rateLimit({
-//     windowMs: 5 * 60 * 1000, // 5 minutes
-//     max: 1000, // Limit each IP to 500 requests per window
-//   })
-// );
+app.use(
+  rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 1000, // Limit each IP to 500 requests per window
+  })
+);
 
 //roots
 const router = Router();
