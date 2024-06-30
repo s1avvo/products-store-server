@@ -16,6 +16,8 @@ dotenv.config();
 
 const app = express();
 
+const PORT = 3005;
+
 // Test połączenia z bazą danych
 (async () => {
   try {
@@ -28,6 +30,8 @@ const app = express();
     process.exit(1); // Wyjdź z procesu, jeśli połączenie nie jest prawidłowe
   }
 })();
+
+app.set("trust proxy", 1);
 
 //middleware
 app.use((req, res, next) => {
@@ -69,6 +73,4 @@ app.use("/api", router);
 //errors
 app.use(handleError);
 
-app.listen(process.env.PORT || 3001, () =>
-  console.log("Listening on port 3001")
-);
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
