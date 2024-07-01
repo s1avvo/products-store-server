@@ -8,6 +8,9 @@ export const viewRouter = Router();
 
 viewRouter
   .get("/products", async (req, res) => {
+    console.log("Products");
+
+    res.setHeader("Content-Type", "application/json");
     res.status(200).json(await ProductRecords.getAllProducts());
   })
   .get("/products/:id", async (req, res) => {
