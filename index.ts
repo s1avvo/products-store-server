@@ -11,7 +11,7 @@ import { listRouter } from "./routes/store";
 import "./utils/db";
 import bodyParser from "body-parser";
 import helmet from "helmet";
-import { pool } from "./utils/db";
+// import { pool } from "./utils/db";
 dotenv.config();
 
 const app = express();
@@ -19,25 +19,26 @@ const app = express();
 const PORT = 3005;
 
 // Test połączenia z bazą danych
-(async () => {
-  try {
-    const connection = await pool.getConnection();
-    await connection.query("SELECT 1");
-    console.log("Database connection successful");
-    connection.release();
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-    process.exit(1); // Wyjdź z procesu, jeśli połączenie nie jest prawidłowe
-  }
-})();
+// (async () => {
+//   try {
+//     const connection = await pool.getConnection();
+//     await connection.query("SELECT 1");
+//     console.log("Database connection successful");
+//     connection.release();
+//   } catch (error) {
+//     console.error("Error connecting to the database:", error);
+//     process.exit(1); // Wyjdź z procesu, jeśli połączenie nie jest prawidłowe
+//   }
+// })();
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 //middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   const date = new Date().toLocaleString("pl-PL");
+//   console.log(`${date} | ${req.method} ${req.url}`);
+//   next();
+// });
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
