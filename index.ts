@@ -1,4 +1,6 @@
-import express, { Router } from "express";
+import express, { Router, json } from "express";
+import bodyParser from "body-parser";
+import helmet from "helmet";
 import dotenv from "dotenv";
 import cors from "cors";
 import fileUpload from "express-fileupload";
@@ -8,15 +10,10 @@ import { handleError } from "./utils/errors";
 import { viewRouter } from "./routes/view";
 import { authRouter } from "./routes/auth";
 import { listRouter } from "./routes/store";
-import "./utils/db";
-import bodyParser from "body-parser";
-import helmet from "helmet";
-// import { pool } from "./utils/db";
+
 dotenv.config();
 
-const app = express();
-
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
 
 // Test połączenia z bazą danych
 // (async () => {
@@ -40,14 +37,12 @@ const PORT = 3005;
 //   next();
 // });
 
-app.use(express.json());
+const app = express();
+
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-  })
-);
 
 app.use(
   fileUpload({
@@ -64,6 +59,12 @@ app.use(
 
 //roots
 const router = Router();
+
+//test
+router.get("/", function (req, res) {
+  const date = new Date().toLocaleString("pl-PL");
+  return res.send(`${date} | /api${req.url} | Hello World!`);
+});
 
 router.use("/", viewRouter);
 router.use("/auth", authRouter);
