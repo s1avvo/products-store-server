@@ -8,9 +8,6 @@ export const viewRouter = Router();
 
 viewRouter
   .get("/products", async (req, res) => {
-    console.log("Products");
-
-    res.setHeader("Content-Type", "application/json");
     res.status(200).json(await ProductRecords.getAllProducts());
   })
   .get("/products/:id", async (req, res) => {
@@ -61,7 +58,12 @@ viewRouter
     const data = await downloadFromS3(req.params.filename);
 
     if (data.Body instanceof Readable) {
-      res.attachment(req.params.filename);
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${req.params.filename}"`
+      );
+      res.setHeader("Content-Type", "application/pdf");
+
       data.Body.pipe(res);
     } else {
       res.status(500).send("Nieoczekiwany typ danych");

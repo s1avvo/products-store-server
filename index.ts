@@ -37,7 +37,7 @@ const PORT = process.env.PORT || 3005;
 
 const app = express();
 
-app.set("trust proxy", true);
+app.set("trust proxy", "127.0.0.1");
 
 app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(json());
@@ -63,7 +63,8 @@ const router = Router();
 //test
 router.get("/", function (req, res) {
   const date = new Date().toLocaleString("pl-PL");
-  return res.send(`${date} | /api${req.url} | Hello World!`);
+  const ip = req.ip;
+  return res.send(`${date} | ${ip} | /api${req.url} | Hello World!`);
 });
 
 router.use("/", viewRouter);
