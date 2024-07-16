@@ -28,8 +28,6 @@ const PORT = process.env.PORT || 3005;
 //   }
 // })();
 
-// app.set("trust proxy", 1);
-
 //middleware
 // app.use((req, res, next) => {
 //   const date = new Date().toLocaleString("pl-PL");
@@ -38,6 +36,8 @@ const PORT = process.env.PORT || 3005;
 // });
 
 const app = express();
+
+app.set("trust proxy", true);
 
 app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(json());
